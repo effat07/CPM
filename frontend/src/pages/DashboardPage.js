@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const { isDark } = useContext(ThemeContext);
+  const userRole = localStorage.getItem("role");
+
 
   const colors = {
     background: isDark ? "#121212" : "#FFFFFF",
@@ -53,12 +55,15 @@ const AdminDashboard = () => {
             >
               Customers
             </Button>
-            <Button
-              variant="outline-light"
-              onClick={() => navigate("/settings")}
-            >
-              Settings
-            </Button>
+            {userRole === "admin" && (
+              <Button
+                variant="outline-light"
+                onClick={() => navigate("/settings")}
+              >
+                Settings
+              </Button>
+            )}
+
           </Nav>
         </Container>
       </Navbar>

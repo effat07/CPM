@@ -1,68 +1,44 @@
-
 const express = require("express");
-const { findUserByEmail, saveResetToken } = require("../models/userModel");
+const { findUserByEmail, savePasswordResetToken } = require("../models/userModel");
 const router = express.Router();
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+require("dotenv").config();
 
 router.post("/", async (req, res) => {
   const { email } = req.body;
-  console.log("Forgot password request for:", email);
+  if (!email) return res.status(400).json({ message: "Email is required" });
 
-
-  if (!email) {
-    return res.status(400).json({ message: "Email is required" });
-  }
-
-  
   const user = await findUserByEmail(email);
-  if (!user) {
-    return res
-      .status(404)
-      .json({ message: "Email not found. Please register first." });
-  }
+  if (!user) return res.status(404).json({ message: "Email not found" });
 
   const resetToken = crypto.randomBytes(32).toString("hex");
-  const resetTokenExpiry = Date.now() + 60 * 60 * 1000;
+  await savePasswordResetToken(email, resetToken);
 
- 
-  await saveResetToken(email, resetToken, resetTokenExpiry);
-
-  
   const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
 
-
   const transporter = nodemailer.createTransport({
-    service: "Gmail",
+    host: "smtp.gmail.com",
+    
     auth: {
-      user: "your-email@gmail.com", 
-      pass: "your-email-password", 
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
- 
   const mailOptions = {
-    from: '"Your App Name" <your-email@gmail.com>',
+    from: `"My App" <${process.env.EMAIL_USER}>`,
     to: email,
     subject: "Password Reset Request",
-    html: `
-      <p>You requested a password reset.</p>
-      <p>Click this link to reset your password:</p>
-      <a href="${resetLink}">${resetLink}</a>
-      <p>This link will expire in 1 hour.</p>
-    `,
+    html: `<p>Click this link to reset your password:</p><a href="${resetLink}">${resetLink}</a><p>This link expires in 1 hour.</p>`,
   };
 
   try {
     await transporter.sendMail(mailOptions);
-    return res
-      .status(200)
-      .json({ message: "Reset link sent to your email address!" });
+    res.status(200).json({ message: "Reset link sent to your email!" });
   } catch (error) {
     console.error("Error sending email:", error);
-    return res
-      .status(500)
-      .json({ message: "Failed to send reset email. Try again later." });
+    res.status(500).json({ message: "Failed to send email" });
   }
 });
 

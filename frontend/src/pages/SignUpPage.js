@@ -48,6 +48,7 @@ const SignUp = () => {
       );
 
       if (response.status === 200 || response.status === 201) {
+        localStorage.setItem("role", formData.role);
         if (formData.role === "user") {
           navigate("/landingPage");
         } else if (formData.role === "admin" || formData.role === "manager") {

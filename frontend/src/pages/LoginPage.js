@@ -31,6 +31,7 @@ const Login = () => {
         localStorage.setItem("token", token);
         const decoded = jwtDecode(token);
         const userRole = decoded.user.role;
+        localStorage.setItem("role", userRole);
         if (userRole === "admin" || userRole === "manager") {
           navigate("/DashboardPage");
         } else {
