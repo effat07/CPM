@@ -4,12 +4,12 @@ const { connectDB } = require("./config/db");
 require("dotenv").config();
 
 const authRoutes = require("./routes/auth");
-//const customerRoutes = require("./routes/customerRoutes");
-//const productRoutes = require("./routes/products");
+const customerRoutes = require("./routes/customerRoutes");
+const productRoutes = require("./routes/products");
 const categoryRoutes = require("./routes/category");
 const forgotPasswordRoutes = require("./routes/forgotPassword");
 const resetPasswordRoute = require("./routes/resetPassword");
-//const siteSettingsRoutes = require("./routes/siteSettingsRoutes");
+const siteSettingsRoutes = require("./routes/siteSettingsRoutes");
 
 const app = express();
 app.use(cors());
@@ -17,12 +17,12 @@ app.use(express.json());
 
 
 app.use("/api/auth", authRoutes);
-//app.use("/api/customers", customerRoutes);
-//app.use("/api/products", productRoutes);
+app.use("/api/customers", customerRoutes);
+app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/forgot-password", forgotPasswordRoutes);
 app.use("/api/reset-password", resetPasswordRoute);
-//app.use("/api/settings", siteSettingsRoutes);
+app.use("/api/settings", siteSettingsRoutes);
 
 
 app.get("/", (req, res) => {

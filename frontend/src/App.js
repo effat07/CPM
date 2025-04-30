@@ -5,11 +5,10 @@ import SignUp from "./pages/SignUpPage";
 import ForgotPassword from "./pages/ForgotPasswordPage";
 import LandingPage from "./pages/LandingPage";
 import AdminDashboard from "./pages/DashboardPage";
-//import ProductDetails from "./pages/ProductDetailsPage";
-//import SettingsPage from "./pages/SettingsPage";
+import SettingsPage from "./pages/SettingsPage";
 import "bootstrap/dist/css/bootstrap.min.css";
-//import ProductCrud from "./pages/ProductCrud";
-//import CustomerCRUD from "./pages/CustomerCURD";
+import ProductCrud from "./pages/ProductCrud";
+import CustomerCRUD from "./pages/CustomerCRUD";
 import ResetPassword from "./pages/ResetPasswordPage";
 import { ThemeProvider } from "./pages/ThemeContext";
 
@@ -23,7 +22,9 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/LandingPage" element={<LandingPage />} />
         <Route path="/DashboardPage" element={<AdminDashboard />} />
-        
+        <Route path="/products" element={<ProductCrud />} />
+        <Route path="/customers" element={<CustomerCRUD />} />
+        <Route path="/settings" element={<SettingsPage />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
       </Routes>
     </Router>}

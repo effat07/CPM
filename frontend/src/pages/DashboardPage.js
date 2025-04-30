@@ -16,13 +16,12 @@ const AdminDashboard = () => {
   const { isDark } = useContext(ThemeContext);
   const userRole = localStorage.getItem("role");
 
-
   const colors = {
     background: isDark ? "#121212" : "#FFFFFF",
     navFooter: "#4B5563",
-    text: isDark ? "#E5E7EB" : "#1F2937",
-    accent: "#9CA3AF",
-    cardBg: isDark ? "#1E1E1E" : "#F9FAFB",
+    text: isDark ? "#fff" : "#374151",
+    cardBg: isDark ? "#374151" : "#F3F4F6",
+    accent: "#fff",
   };
 
   return (
@@ -37,7 +36,7 @@ const AdminDashboard = () => {
       {/* Navbar */}
       <Navbar expand="lg" style={{ backgroundColor: colors.navFooter }} variant="dark">
         <Container>
-          <Navbar.Brand className="fw-bold fs-3" style={{ color: colors.text }}>
+          <Navbar.Brand className="fw-bold fs-3" style={{ color: colors.accent }}>
             Admin Panel
           </Navbar.Brand>
           <Nav className="ms-auto">
@@ -63,19 +62,18 @@ const AdminDashboard = () => {
                 Settings
               </Button>
             )}
-
           </Nav>
         </Container>
       </Navbar>
 
       {/* Main Dashboard Content */}
       <Container className="flex-grow-1 py-5">
-        <h2 className="text-center mb-5" style={{ color: colors.navFooter }}>
+        <h2 className="text-center mb-5" style={{ color: colors.text }}>
           Welcome to Admin Panel
         </h2>
         <Row className="g-4 justify-content-center">
           {[
-            { label: "Revenue", value: "$153,000" },
+            { label: "Revenue", value: "Rs 153,000" },
             { label: "Sales", value: "20" },
             { label: "Customers", value: "20" },
             { label: "Employees", value: "20" },
@@ -89,12 +87,12 @@ const AdminDashboard = () => {
                 }}
               >
                 <Card.Body>
-                  <h6 className="mb-2" style={{ color: colors.navFooter }}>
-                    {stat.label}
-                  </h6>
-                  <h4 style={{ color: isDark ? "#E5E7EB" : "#1F2937" }}>
+                  <Card.Title style={{ color: isDark ? "#FFFFFF" : "#1F2937" }}>
                     {stat.value}
-                  </h4>
+                  </Card.Title>
+                  <Card.Text style={{ color: isDark ? "#FFFFFF" : "#1F2937" }}>
+                    {stat.label}
+                  </Card.Text>
                 </Card.Body>
               </Card>
             </Col>
@@ -107,7 +105,7 @@ const AdminDashboard = () => {
         className="text-center py-3 mt-auto"
         style={{
           backgroundColor: colors.navFooter,
-          color: colors.text,
+          color: isDark ? colors.text : "#FFFFFF", // white in light mode
         }}
       >
         © 2025 ShopiTech
